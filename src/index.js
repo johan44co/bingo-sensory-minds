@@ -1,10 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './App';
-import { store } from './app/store';
+import configureStore from './configureStore'
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
+import { newBingo} from './actions/BingoActions';
+
+const store = configureStore()
+
+store.getState().bingo.socket.on('bingo', (data) => {
+  store.dispatch(newBingo(data))
+})
 
 ReactDOM.render(
   <React.StrictMode>

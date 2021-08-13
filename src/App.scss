@@ -1,0 +1,421 @@
+@mixin small {
+  @media only screen and (min-width: 600px) {
+    @content;
+  }
+}
+
+@mixin medium {
+  @media only screen and (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media only screen and (min-width: 1440px) {
+    @content;
+  }
+}
+
+$color-a: #ffd58e;
+$color-b: #fb9a5a;
+$color-c: #f26249;
+$color-d: #ed403b;
+$color-e: #52b3b6;
+
+$border-radius: 5px;
+$board-width: 300px;
+$board-height: 400px;
+$main-gradient: linear-gradient(135deg, $color-e 0%, $color-a 100%);
+$default-shadow: 0px 0px 2px 1px rgba(0,0,0,0.25);
+
+@font-face {
+  font-family: 'Verlag Book';
+  src: url('./assets/fonts/Verlag/Verlag-Book.woff2') format('woff2'),
+      url('./assets/fonts/Verlag/Verlag-Book.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Overpass Mono';
+  src: url('./assets/fonts/OverpassMono/OverpassMono-Light.woff2') format('woff2'),
+      url('./assets/fonts/OverpassMono/OverpassMono-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+p {
+  font-family: 'Verlag Book';
+  font-weight: normal;
+  font-style: normal;
+}
+
+span {
+  font-family: 'Overpass Mono';
+  font-weight: 300;
+  font-style: normal;
+}
+
+.App {
+  text-align: center;
+  background: $main-gradient;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+.board {
+  width: $board-width;
+  height: $board-height;
+  background-color: $color-c;
+  margin: auto;
+  border-radius: $border-radius;
+  display: flex;
+  flex-flow: column;
+  align-content: flex-start;
+  box-shadow: $default-shadow;
+  overflow: hidden;
+  position: relative;
+
+  &__header {
+    width: $board-width;
+    height: calc((#{$board-height} - #{$board-width}) / 2);
+    display: flex;
+    background-color: $color-a;
+
+    &__screen {
+      width: calc((#{$board-width} - ((#{$board-height} - #{$board-width}) / 2)) - 5px );
+      background-color: black;
+      color: greenyellow;
+      display: flex;
+      border-radius: 0 0 $border-radius $border-radius;
+      margin: 0 0 5px 5px;
+      justify-content: space-between;
+
+      p {
+        margin: auto;
+        text-transform: uppercase;
+        font-family: 'Overpass Mono';
+        font-weight: 300;
+        font-style: normal;
+        line-height: 1.5;
+        font-size: 22px;
+        user-select: none;
+        cursor: pointer;
+        white-space: nowrap;
+        // pointer-events: none;
+      }
+
+      span {
+        text-transform: uppercase;
+        font-family: 'Overpass Mono';
+        font-weight: 300;
+        font-style: normal;
+        line-height: 1;
+        font-size: 11px;
+        user-select: none;
+        // cursor: text;
+        // pointer-events: none;
+      }
+
+      input {
+        background: transparent;
+        color: greenyellow;
+        margin: auto;
+        text-transform: uppercase;
+        font-family: 'Overpass Mono';
+        font-weight: 300;
+        font-style: normal;
+        line-height: 1.5;
+        font-size: 22px;
+        width: 185px;
+        border-style: none;
+        padding: 0;
+        text-decoration: underline;
+        // user-select: none;
+        // cursor: pointer;
+        &:focus {
+          outline: none;
+
+        }
+      }
+      
+      &__name {
+        // width: calc((#{$board-height} - #{$board-width}) / 2);
+        // background-color: $color-b;
+        margin: 5px;
+        text-align: left;
+        display: flex;
+        flex-flow: column;
+
+        p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 185px;
+        }
+      }
+
+      &__score {
+        width: calc((#{$board-height} - #{$board-width}) / 2);
+        margin: 5px 0;
+        display: flex;
+        flex-flow: column;
+        // cursor: none !important;
+
+        p {
+          cursor: default;
+        }
+
+        span {
+          cursor: default;
+        }
+      }
+    }
+
+    // &__score {
+    //   width: calc((#{$board-height} - #{$board-width}) / 2);
+    //   // background-color: $color-e;
+    // }
+
+    &__reset {
+      width: calc((#{$board-height} - #{$board-width}) / 2);
+      display: flex;
+      cursor: pointer;
+      // background-color: $color-b;
+
+      img {
+        margin: 10px;
+        user-select: none;
+      }
+
+      object {
+        margin: 10px;
+      }
+
+      &:hover {
+        animation: fullrotate 0.6s ease 0s 1 normal forwards;
+      }
+    }
+
+    // @include medium() {
+    //   font-size: 36px;
+    // }
+    // @include large {
+    //   font-size: 42px;
+    // }
+  }
+
+  &__animation {
+    width: calc(#{$board-width});
+    height: calc(#{$board-width});
+    position: absolute;
+    z-index: 99999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  &__grid {
+    width: calc(#{$board-width} - 10px);
+    height: calc(#{$board-width} - 10px);
+    // background-color: black;
+    // border-radius: $border-radius;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    // overflow: hidden;
+    // border: black solid 0.5px;
+
+    &__box {
+      width: calc(20%);
+      height: calc(20%);
+      // background-color: black;
+      display: flex;
+
+      &__inner {
+        background: $color-a;
+        margin: 0.5px;
+        width: 100%;
+        display: flex;
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+        color: $color-d;
+        animation: .2s ease-in-out backwards rotate;
+        animation-delay: inherit;
+        // border-radius: $border-radius;
+        
+        p {
+         line-height: 1;
+         font-size: 12px;
+         margin: auto;
+         user-select: none;
+         pointer-events: none;
+        }
+
+        span {
+          position: absolute;
+          line-height: 1;
+          right: 1px;
+          bottom: 0px;
+          font-size: 9px;
+          user-select: none;
+          pointer-events: none;
+        }
+
+        &:hover {
+          color: white;
+          background: $color-e;
+          border-radius: $border-radius;
+          margin: 0px;
+          box-shadow: $default-shadow;
+          animation: rotate 0.2s ease 0s 1 normal forwards;
+          z-index: 9999;
+        }
+        
+
+        &--selected {
+          @extend .board__grid__box__inner;
+          background-color: $color-d;
+          color: $color-a;
+          cursor: initial;
+          text-decoration: line-through;
+          animation: none;
+          &:hover {
+            color: $color-a;
+            background-color: $color-c;
+            border-radius: initial;
+            margin: 0.5px;
+            box-shadow: initial;
+            animation: none;
+            z-index: initial;
+          }
+        }
+
+      }
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    @for $i from 1 through 25 {
+      &__box {
+          &:nth-child(#{$i}) {            
+            animation-delay: $i * (1s / 18);
+          }
+      }
+    }
+
+  }
+
+  &__footer {
+    width: $board-width;
+    height: calc((#{$board-height} - #{$board-width}) / 2);
+    display: flex;
+    background-color: $color-b;
+    color: $color-a;
+
+    span {
+      text-transform: uppercase;
+    }
+
+    &__screen {
+      @extend .board__header__screen;
+      width: calc(#{$board-width} - 10px);
+      border-radius: 5px 5px 0 0;
+      margin: 5px 5px 0 5px;
+      
+
+      &__bingo {
+        @extend .board__header__screen__name;
+        overflow: hidden;
+        flex-flow: row;
+        align-content: space-between;
+        flex-wrap: wrap;
+        justify-content: inherit;
+
+        &__wrap {
+          // position: relative;
+          // position: absolute;
+          // white-space: nowrap;
+          // will-change: transform;
+          // animation: marquee 10s infinite;
+          // margin: 0;
+          // white-space: nowrap;
+          display: flex;
+
+          p {
+            animation: marquee 10s infinite linear;
+            margin: 0;
+            padding-right: 15px;
+            white-space: nowrap;
+            cursor: default;
+            overflow:inherit;
+            text-overflow: inherit;
+            width: inherit;
+            
+          }
+
+        }
+      }
+
+    }
+    
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+    border-radius: initial;
+  }
+  50% {
+    transform: rotateZ(-8deg);
+  }
+  100% {
+    transform: scale(1.1) rotateZ(-4deg);
+    opacity: 100;
+    border-radius: $border-radius;
+  }
+}
+
+@keyframes fullrotate {
+  0% {
+    transform: scale(1);
+  }
+  // 50% {
+  //   transform: rotateZ(-8deg);
+  // }
+  100% {
+    transform: scale(1) rotateZ(-360deg);
+  }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+// @keyframes fade-in {
+//   0% {
+//     transform: scale(1);
+//     opacity: 0;
+//     border-radius: $border-radius;
+//   }
+//   50% {
+//     transform: rotateZ(-8deg);
+//   }
+//   100% {
+//     transform: scale(1.1) rotateZ(-4deg);
+//     opacity: 100;
+//     border-radius: $border-radius;
+//   }
+// }
